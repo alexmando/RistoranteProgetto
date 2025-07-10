@@ -1,9 +1,8 @@
 package Service;
 
-import Mapper.UserMapper;
-import Model.Dto.UserDTO;
-import Model.Entity.Role;
-import Model.Entity.UserEntity;
+import org.example.ristoranteprogetto.Mapper.UserMapper;
+import org.example.ristoranteprogetto.Model.Dto.UserDTO;
+import org.example.ristoranteprogetto.Model.Entity.UserEntity;
 import org.example.ristoranteprogetto.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

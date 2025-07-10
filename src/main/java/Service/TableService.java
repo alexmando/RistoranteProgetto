@@ -2,9 +2,9 @@ package Service;
 
 //logica per tavoli lato admin
 
-import Mapper.TableMapper;
-import Model.Dto.TableDTO;
-import Model.Entity.TableEntity;
+import org.example.ristoranteprogetto.Mapper.TableMapper;
+import org.example.ristoranteprogetto.Model.Dto.TableDTO;
+import org.example.ristoranteprogetto.Model.Entity.TableEntity;
 import org.example.ristoranteprogetto.Repository.TableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

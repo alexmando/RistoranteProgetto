@@ -1,4 +1,4 @@
-package Model.Entity;
+package org.example.ristoranteprogetto.Model.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,8 +30,7 @@ public class ReservationEntity {
     @Setter
     private String status; // es. "IN_ATTESA", "CONFERMATA", "RIFIUTATA"
 
-    private Long userId;
-    private Long tableId;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

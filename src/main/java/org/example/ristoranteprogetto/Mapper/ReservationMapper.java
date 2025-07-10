@@ -1,9 +1,8 @@
-package Mapper;
+package org.example.ristoranteprogetto.Mapper;
 
-import Model.Dto.ReservationDTO;
-import Model.Entity.ReservationEntity;
+import org.example.ristoranteprogetto.Model.Dto.ReservationDTO;
+import org.example.ristoranteprogetto.Model.Entity.ReservationEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {

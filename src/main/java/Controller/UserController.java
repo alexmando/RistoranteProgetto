@@ -1,8 +1,7 @@
 package Controller;
 
 
-import Mapper.UserMapper;
-import Model.Dto.UserDTO;
+import org.example.ristoranteprogetto.Model.Dto.UserDTO;
 import Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

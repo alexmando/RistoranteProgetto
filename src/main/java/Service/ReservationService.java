@@ -1,10 +1,10 @@
 package Service;
 
-import Mapper.ReservationMapper;
-import Model.Dto.ReservationDTO;
-import Model.Entity.ReservationEntity;
-import Model.Entity.TableEntity;
-import Model.Entity.UserEntity;
+import org.example.ristoranteprogetto.Mapper.ReservationMapper;
+import org.example.ristoranteprogetto.Model.Dto.ReservationDTO;
+import org.example.ristoranteprogetto.Model.Entity.ReservationEntity;
+import org.example.ristoranteprogetto.Model.Entity.TableEntity;
+import org.example.ristoranteprogetto.Model.Entity.UserEntity;
 import org.example.ristoranteprogetto.Repository.ReservationRepository;
 import org.example.ristoranteprogetto.Repository.TableRepository;
 import lombok.RequiredArgsConstructor;
@@ -74,7 +74,7 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    public ReservationDTO updateReservation(Long id, ReservationDTO updatedDto) {
+    /*public ReservationDTO updateReservation(Long id, ReservationDTO updatedDto) {
         return reservationRepository.findById(id)
                 .map(existing -> {
                     existing.setData(updatedDto.getDate());
@@ -95,7 +95,7 @@ public class ReservationService {
                     return reservationMapper.toDto(reservationRepository.save(existing));
                 })
                 .orElse(null);
-    }
+    }*/
 
     public ReservationDTO updateStatus(Long id, String status) {
         return reservationRepository.findById(id)

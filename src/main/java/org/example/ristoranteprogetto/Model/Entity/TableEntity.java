@@ -1,4 +1,4 @@
-package Model.Entity;
+package org.example.ristoranteprogetto.Model.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

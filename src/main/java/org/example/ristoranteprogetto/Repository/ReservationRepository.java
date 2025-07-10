@@ -1,6 +1,6 @@
 package org.example.ristoranteprogetto.Repository;
 
-import Model.Entity.ReservationEntity;
+import org.example.ristoranteprogetto.Model.Entity.ReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

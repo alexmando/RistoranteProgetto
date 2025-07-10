@@ -1,6 +1,6 @@
 package org.example.ristoranteprogetto.Repository;
 
-import Model.Entity.UserEntity;
+import org.example.ristoranteprogetto.Model.Entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

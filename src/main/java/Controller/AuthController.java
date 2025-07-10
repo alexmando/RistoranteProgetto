@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Dto.UserDTO;
+import org.example.ristoranteprogetto.Model.Dto.UserDTO;
 import Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.example.ristoranteprogetto.Security.JwtTokenProvider;

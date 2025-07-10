@@ -1,4 +1,4 @@
-package Model.Dto;
+package org.example.ristoranteprogetto.Model.Dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,6 @@ import java.time.LocalTime;
 @Getter
 public class ReservationDTO {
     private Long id;
-    private Long userId;
-    private Long tableId;
     private LocalDate data;
     private LocalTime orario;
     private int numeroPersone;
@@ -22,10 +20,8 @@ public class ReservationDTO {
 
     public ReservationDTO() {}
 
-    public ReservationDTO(Long id, Long userId, Long tableId, LocalDate data, LocalTime orario, int persone, String status) {
+    public ReservationDTO(Long id, LocalDate data, LocalTime orario, int persone, String status) {
         this.id = id;
-        this.userId = userId;
-        this.tableId = tableId;
         this.data = data;
         this.orario = orario;
         this.numeroPersone = persone;

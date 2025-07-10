@@ -1,10 +1,9 @@
-package Mapper;
+package org.example.ristoranteprogetto.Mapper;
 
-import Model.Dto.UserDTO;
-import Model.Entity.UserEntity;
+import org.example.ristoranteprogetto.Model.Dto.UserDTO;
+import org.example.ristoranteprogetto.Model.Entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring") // così puoi iniettarlo con @Autowired
 public interface UserMapper {

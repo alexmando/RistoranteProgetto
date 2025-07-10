@@ -1,15 +1,15 @@
-package Model.Entity;
+package org.example.ristoranteprogetto.Model.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.net.SocketOption;
 import java.util.LinkedList;
 
 @Data
 @Entity
 @Table(name = "users")
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;

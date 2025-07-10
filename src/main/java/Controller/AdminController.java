@@ -1,7 +1,7 @@
 package Controller;
 
-import Model.Dto.ReservationDTO;
-import Model.Dto.TableDTO;
+import org.example.ristoranteprogetto.Model.Dto.ReservationDTO;
+import org.example.ristoranteprogetto.Model.Dto.TableDTO;
 import Service.ReservationService;
 import Service.TableService;
 import lombok.RequiredArgsConstructor;

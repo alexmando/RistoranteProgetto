@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Dto.ReservationDTO;
+import org.example.ristoranteprogetto.Model.Dto.ReservationDTO;
 import Service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,11 +37,11 @@ public class ReservationController {
     /**
      * Un utente può modificare solo le proprie prenotazioni, l'ADMIN può modificare qualsiasi prenotazione
      */
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or @reservationSecurity.isOwner(#id, principal.username)")
     public ReservationDTO update(@PathVariable Long id, @RequestBody ReservationDTO dto) {
         return reservationService.updateReservation(id, dto);
-    }
+    }*/
 
     /**
      * Un utente può cancellare solo le proprie prenotazioni, l'ADMIN può cancellare qualsiasi prenotazione

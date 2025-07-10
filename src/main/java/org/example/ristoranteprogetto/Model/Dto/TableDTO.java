@@ -1,6 +1,6 @@
-package Model.Dto;
+package org.example.ristoranteprogetto.Model.Dto;
 
-import Model.Entity.ReservationEntity;
+import org.example.ristoranteprogetto.Model.Entity.ReservationEntity;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,9 +1,8 @@
-package Mapper;
+package org.example.ristoranteprogetto.Mapper;
 
-import Model.Dto.TableDTO;
-import Model.Entity.TableEntity;
+import org.example.ristoranteprogetto.Model.Dto.TableDTO;
+import org.example.ristoranteprogetto.Model.Entity.TableEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface TableMapper {

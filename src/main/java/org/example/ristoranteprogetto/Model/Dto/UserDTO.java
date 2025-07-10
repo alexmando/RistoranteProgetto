@@ -1,6 +1,6 @@
-package Model.Dto;
+package org.example.ristoranteprogetto.Model.Dto;
 
-import Model.Entity.Role;
+import org.example.ristoranteprogetto.Model.Entity.Role;
 import lombok.Data;
 
 @Data
