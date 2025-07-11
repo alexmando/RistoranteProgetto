@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")   // Tutti i metodi di questo controller sono riservati agli ADMIN
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
 
     private final TableService tableService;

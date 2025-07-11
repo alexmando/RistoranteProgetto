@@ -12,7 +12,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long id;
 
     private String nome;
     private String cognome;
@@ -28,11 +28,11 @@ public class UserEntity {
     private LinkedList<ReservationEntity> prenotazioniUtente;
 
     public UserEntity(Long id) {
-        this.ID = id;
+        this.id = id;
     }
 
     public UserEntity() {
-        this.ID = null;
+        this.id = null;
     }
 
     public void setName(String name) {
@@ -45,9 +45,5 @@ public class UserEntity {
 
     public Role getRole() {
         return this.ruolo;
-    }
-
-    public void setId(Long userId) {
-        this.ID = userId;
     }
 }
