@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.example.ristoranteprogetto.Model.Entity.Role;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class UserService {
 
     //dovrà avere l'oggetto repository di riferimento per poter effettuare query sulla tabella user
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     public Optional<UserEntity> findByEmail(String email) {
@@ -74,12 +75,15 @@ public class UserService {
 
     public UserDTO createUser(UserDTO userDTO) {
         UserEntity user = new UserEntity();
+        user.setNome(userDTO.getNome());
+        user.setCognome(userDTO.getCognome());
         user.setEmail(userDTO.getEmail());
+        user.setRuolo(userDTO.getRuolo() != null ? userDTO.getRuolo() : Role.USER);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        // Aggiungi altri campi se necessario
         UserEntity savedUser = userRepository.save(user);
-        return new UserDTO(savedUser.getEmail(), null); // restituisce DTO senza password
+        return userMapper.toDto(savedUser);
     }
+
 
     public UserDTO updateUser(Long id, UserDTO updatedUser) {
         return userRepository.findById(id)

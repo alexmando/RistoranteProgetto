@@ -1,5 +1,6 @@
 package org.example.ristoranteprogetto.Model.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ristoranteprogetto.Model.Entity.Role;
 import lombok.Data;
 
@@ -26,9 +27,9 @@ public class UserDTO {
 
     }
 
-    // Non è consigliato tenere la password in DTO, ma metto qui un getter vuoto
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
-        return null;
+        return password;
     }
 
 
