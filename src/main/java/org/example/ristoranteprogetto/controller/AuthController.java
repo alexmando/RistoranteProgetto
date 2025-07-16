@@ -5,6 +5,7 @@ import org.example.ristoranteprogetto.model.dto.UserDTO;
 import org.example.ristoranteprogetto.service.AuthService;
 import org.example.ristoranteprogetto.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -35,7 +36,12 @@ public class AuthController {
         try {
             System.out.println("LOGIN DTO: email=" + userDTO.getEmail() + " password=" + userDTO.getPassword());
             String token = authService.login(userDTO.getEmail(), userDTO.getPassword());
-            return ResponseEntity.ok(Map.of("token", "Bearer " + token));
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token) // Aggiungi l'header
+                    .body(Map.of(
+                            "accessToken", token,  // Chiave modificata da "token" a "accessToken"
+                            "tokenType", "Bearer"
+                    ));
 
         } catch (AuthenticationException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

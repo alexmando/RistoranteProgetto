@@ -1,15 +1,20 @@
 package org.example.ristoranteprogetto.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.example.ristoranteprogetto.mapper.ReservationMapper;
 import org.example.ristoranteprogetto.model.dto.ReservationDTO;
+import org.example.ristoranteprogetto.model.dto.UserDTO;
 import org.example.ristoranteprogetto.model.entity.ReservationEntity;
 import org.example.ristoranteprogetto.model.entity.TableEntity;
+import org.example.ristoranteprogetto.model.entity.UserEntity;
 import org.example.ristoranteprogetto.repository.ReservationRepository;
 import org.example.ristoranteprogetto.repository.TableRepository;
 import lombok.RequiredArgsConstructor;
+import org.example.ristoranteprogetto.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.time.LocalDate;
@@ -25,20 +30,21 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TableRepository tableRepository;
     private final ReservationMapper reservationMapper;
+    private final UserRepository userRepository;
 
 
 
-    public List<ReservationEntity> getReservationsByDate(LocalDate date) {
-        return reservationRepository.findByData(date);
+    public List<ReservationEntity> getReservationsByDate(LocalDateTime date) {
+        return reservationRepository.findByDataPrenotazione(date);
     }
 
 
 
-    public List<TableEntity> getAvailableTables(LocalDate data, LocalTime orario, int numeroPersone) {
+    public List<TableEntity> getAvailableTables(LocalDateTime data, LocalTime orario, int numeroPersone) {
         List<TableEntity> allTables = tableRepository.findAll();
         return allTables.stream()
                 .filter(t -> t.getPosti() >= numeroPersone)
-                .filter(t -> reservationRepository.findByTableIdAndDataAndOrario(t.getId(), data, orario).isEmpty())
+                .filter(t -> reservationRepository.findByTableIdAndDataPrenotazione(t.getId(), data).isEmpty())
                 .toList();
     }
 
@@ -61,8 +67,16 @@ public class ReservationService {
 
 
     public ReservationDTO createReservation(ReservationDTO dto) {
-        ReservationEntity reservation = reservationMapper.toEntity(dto);
-        return reservationMapper.toDto(reservationRepository.save(reservation));
+            UserEntity user = userRepository.findById(dto.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+            ReservationEntity reservation = new ReservationEntity();
+            reservation.setDataPrenotazione(dto.getDataPrenotazione());
+            reservation.setNumeroPersone(dto.getNumeroPersone());
+            reservation.setUser(user);
+
+            reservation = reservationRepository.save(reservation);
+            return reservationMapper.toDto(reservation);
     }
 
     public void deleteReservation(Long id) {

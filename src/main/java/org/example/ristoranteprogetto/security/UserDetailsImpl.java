@@ -12,7 +12,7 @@ import java.util.List;
 public class UserDetailsImpl implements UserDetails {
 
 
-    private final UserEntity user;  // la tua User entity
+    public final UserEntity user;  // la tua User entity
 
     public UserDetailsImpl(UserEntity user) {
         this.user = user;
@@ -32,8 +32,9 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // user.getRuolo() restituisce un enum Ruolo
         if (user.getRuolo() != null) {
-            // Usa il nome dell'enum come stringa per SimpleGrantedAuthority
-            return List.of(new SimpleGrantedAuthority(user.getRuolo().name()));
+            String ruolo = "ROLE_" + user.getRuolo().name().toUpperCase();
+            System.out.println("Ruolo convertito: " + ruolo); // DEBUG
+            return List.of(new SimpleGrantedAuthority(ruolo));
         }
         return List.of();
     }

@@ -32,26 +32,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        System.out.println("Request: " + request.getMethod() + " " + request.getRequestURI());
+
         try {
             String token = jwtTokenProvider.getTokenFromRequest(request);
+            System.out.println("Token estratto: " + token); // DEBUG
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 String email = jwtTokenProvider.getEmailFromToken(token);
+                System.out.println("Email dal token: " + email); // DEBUG
 
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+                System.out.println("Ruoli utente: " + userDetails.getAuthorities()); // DEBUG
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
                                 userDetails.getAuthorities()
                         );
-
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                System.out.println("Token mancante o non valido"); // DEBUG
             }
         } catch (Exception ex) {
-            // Logga l'errore ma non bloccare la richiesta
-            logger.error("Errore durante l'autenticazione JWT", ex);
+            logger.error("Errore JWT", ex);
         }
 
         filterChain.doFilter(request, response);

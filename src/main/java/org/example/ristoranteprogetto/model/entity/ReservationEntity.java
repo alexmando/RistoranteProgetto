@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 // ogni prenotazione è legata ad un utente e ad uno specifico tavolo,
@@ -20,9 +21,8 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate data;
 
-    private LocalTime orario;
+    private LocalDateTime dataPrenotazione;
 
     private int numeroPersone;
 
@@ -42,13 +42,6 @@ public class ReservationEntity {
     @JoinColumn(name = "table_id", nullable = false)
     private TableEntity table;
 
-    public void setTime(LocalTime time) {
-        this.orario = time;
-    }
-
-    public LocalTime getTime() {
-        return this.orario;
-    }
 
     public void setPeople(int people) {
         this.numeroPersone = people;

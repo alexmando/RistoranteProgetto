@@ -4,52 +4,34 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Setter
 @Getter
 public class ReservationDTO {
+
     private Long id;
-    private LocalDate data;
-    private LocalTime orario;
+    private LocalDateTime dataPrenotazione;
     private int numeroPersone;
     private String status;  // es. "PENDING", "APPROVED", "REJECTED"
 
     private Long version;
 
+    private UUID userId;
+    private Long tableId;
+
     public ReservationDTO() {}
 
-    public ReservationDTO(Long id, LocalDate data, LocalTime orario, int persone, String status) {
-        this.id = id;
-        this.data = data;
-        this.orario = orario;
-        this.numeroPersone = persone;
+    public ReservationDTO(Long id, LocalDateTime orario, int numeroPersone, String status, UUID userId, Long tableId, Long version) {
+        this.id=id;
+        this.dataPrenotazione = orario;
+        this.numeroPersone = numeroPersone;
         this.status = status;
+        this.userId = userId;
+        this.tableId = tableId;
+        this.version = version;
     }
-
-    public LocalDate getDate() {
-        return data;
-    }
-
-    public void setDate(LocalDate date) {
-        this.data = date;
-    }
-
-    public LocalTime getTime() {
-        return orario;
-    }
-
-    public void setTime(LocalTime time) {
-        this.orario = time;
-    }
-
-    public int getPeople() {
-        return numeroPersone;
-    }
-
-    public void setPeople(int people) {
-        this.numeroPersone = people;
-    }
-
 
 }
