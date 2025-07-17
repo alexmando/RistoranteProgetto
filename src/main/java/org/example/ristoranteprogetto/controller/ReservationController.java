@@ -5,10 +5,13 @@ import org.example.ristoranteprogetto.security.JwtTokenProvider;
 import org.example.ristoranteprogetto.security.UserDetailsImpl;
 import org.example.ristoranteprogetto.service.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,40 +28,67 @@ public class ReservationController {
     /**
      * Gli utenti loggati (USER) possono creare una prenotazione
      */
-    @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<?> create(@RequestBody ReservationDTO dto, @RequestHeader("Authorization") String authHeader) {
 
-        // Estrai e valida il token
-        String token = authHeader.substring(7);
-        if (!tokenProvider.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token non valido o scaduto");
+    @PostMapping
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<?> create(
+            @RequestBody ReservationDTO dto,
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+
+        // 1) Verifica presenza e formato dell’header Authorization
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Token mancante o non valido");
         }
 
-        // Ottieni l'ID utente dal token
-        Long userId = tokenProvider.getUserIdFromToken(token);
+        // 2) Estrai il token (senza il prefisso "Bearer ")
+        String token = authHeader.substring(7);
 
-        // Verifica che l'utente stia creando una prenotazione per sé stesso
-        if (!userId.equals(dto.getUserId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        // 3) Controlla validità e scadenza del token
+        if (!tokenProvider.validateToken(token)) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Token scaduto o non valido");
+        }
+
+        // 4) Ottieni l’UUID dell’utente autenticato dal token
+        UUID currentUserId;
+        try {
+            currentUserId = tokenProvider.getUserIdFromToken(token);
+        } catch (UsernameNotFoundException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Utente non trovato per il token fornito");
+        }
+
+        // 5) Verifica che stia prenotando per sé stesso
+        if (!currentUserId.equals(dto.getUserId())) {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
                     .body("Non puoi creare prenotazioni per altri utenti");
         }
 
-        ReservationDTO createdReservation = reservationService.createReservation(dto);
-        return ResponseEntity.ok(createdReservation);
+        if (dto.getTableId() == null) {
+            dto.setTableId(1L); // valore placeholder temporaneo
+        }
+
+        // 6) Creazione della prenotazione
+        ReservationDTO created = reservationService.createReservation(dto);
+        return ResponseEntity.ok(created);
     }
 
     /**
      * Gli utenti (USER) visualizzano solo le proprie prenotazioni;
      * gli ADMIN possono visualizzarle tutte
      */
-    @GetMapping
+    @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<?> getUserReservations(@RequestParam UUID userId,
+    public ResponseEntity<?> getUserReservations(@PathVariable UUID userId,
                                                  @RequestHeader("Authorization") String authHeader) {
 
         String token = authHeader.substring(7);
-        Long currentUserId = tokenProvider.getUserIdFromToken(token);
+        UUID currentUserId = tokenProvider.getUserIdFromToken(token);
         boolean isAdmin = tokenProvider.getRolesFromToken(token).contains("ADMIN");
 
         // Un USER può vedere solo le proprie prenotazioni

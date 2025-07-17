@@ -69,8 +69,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-requested-with")); // <- Aggiunto
-        config.setExposedHeaders(Arrays.asList("authorization"));
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        config.setExposedHeaders(Arrays.asList("Authorization"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
@@ -87,6 +87,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        // usa il tuo costruttore con tokenProvider + userDetailsService
         return new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService);
     }
 

@@ -39,7 +39,7 @@ public class ReservationEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "table_id", nullable = false)
+    @JoinColumn(name = "table_id", nullable = true)
     private TableEntity table;
 
 

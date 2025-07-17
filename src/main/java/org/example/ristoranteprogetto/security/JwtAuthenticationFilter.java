@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 
 import java.io.IOException;
 
-@Component
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -35,7 +35,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("Request: " + request.getMethod() + " " + request.getRequestURI());
 
         try {
-            String token = jwtTokenProvider.getTokenFromRequest(request);
+            String header = request.getHeader("Authorization");
+
+            if (header == null || !header.startsWith("Bearer ")) {
+                logger.warn("Token mancante o non valido");
+                filterChain.doFilter(request, response);
+                return;
+            }
+            String token = header.substring(7);  // Rimuove "Bearer "
             System.out.println("Token estratto: " + token); // DEBUG
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
