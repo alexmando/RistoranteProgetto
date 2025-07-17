@@ -42,15 +42,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            String token = header.substring(7);  // Rimuove "Bearer "
-            System.out.println("Token estratto: " + token); // DEBUG
+            String token = header.substring(7);  // Rimuove "Bearer ", estraggo il token vero e proprio
+            System.out.println("Token estratto: " + token);
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 String email = jwtTokenProvider.getEmailFromToken(token);
-                System.out.println("Email dal token: " + email); // DEBUG
+                System.out.println("Email dal token: " + email);
 
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-                System.out.println("Ruoli utente: " + userDetails.getAuthorities()); // DEBUG
+                System.out.println("Ruoli utente: " + userDetails.getAuthorities());
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
@@ -61,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                System.out.println("Token mancante o non valido"); // DEBUG
+                System.out.println("Token mancante o non valido");
             }
         } catch (Exception ex) {
             logger.error("Errore JWT", ex);

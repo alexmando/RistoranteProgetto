@@ -16,15 +16,14 @@ import org.example.ristoranteprogetto.model.entity.Role;
 
 @Service
 @RequiredArgsConstructor
+
 public class UserService {
 
-    //dovrà avere l'oggetto repository di riferimento per poter effettuare query sulla tabella user
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     public Optional<UserEntity> findByEmail(String email) {
-
         return userRepository.findByEmail(email);
     }
 
@@ -38,6 +37,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser(UUID id) {
         if (!userRepository.existsById(id)) {
             throw new IllegalArgumentException("Utente non trovato");
@@ -91,6 +91,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public UserDTO updateUser(UUID id, UserDTO updatedUser) {
         return userRepository.findById(id)
                 .map(existingUser -> {

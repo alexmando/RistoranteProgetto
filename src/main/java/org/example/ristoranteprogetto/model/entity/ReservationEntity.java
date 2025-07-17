@@ -39,7 +39,7 @@ public class ReservationEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "table_id", nullable = true)
+    @JoinColumn(name = "table_id", nullable = true) //tavolo assegnabile in seguito, fatto per non avere problemi nel json
     private TableEntity table;
 
 

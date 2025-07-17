@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor // uso questa soluzione perchè il professore ci ha sconsigliato di utilizzare Autowired
-@Transactional
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
@@ -50,6 +49,7 @@ public class ReservationService {
 
 
 
+    @Transactional
     public ReservationEntity saveReservation(ReservationEntity reservation) {
         return reservationRepository.save(reservation);
     }
@@ -68,6 +68,7 @@ public class ReservationService {
 
 
 
+    @Transactional
     public ReservationDTO createReservation(ReservationDTO dto) {
             UserEntity user = userRepository.findById(dto.getUserId())
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -81,6 +82,7 @@ public class ReservationService {
             return reservationMapper.toDto(reservation);
     }
 
+    @Transactional
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
@@ -115,10 +117,11 @@ public class ReservationService {
                 .orElse(null);
     }*/
 
+    @Transactional
     public ReservationDTO updateStatus(Long id, String status) {
         return reservationRepository.findById(id)
                 .map(reservation -> {
-                    reservation.setStatus(status);  // aggiorna lo stato
+                    reservation.setStatus(status);
                     ReservationEntity updated = reservationRepository.save(reservation);
                     return reservationMapper.toDto(updated);
                 })

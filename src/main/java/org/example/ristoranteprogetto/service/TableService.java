@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class TableService {
 
     private final TableRepository tableRepository;
     private final TableMapper tableMapper;
 
+    @Transactional
     public void deleteTable(Long id) {
         tableRepository.deleteById(id);
     }
@@ -38,23 +38,24 @@ public class TableService {
                 .orElse(null);
     }
 
+    @Transactional
     public TableDTO saveTable(TableDTO tableDTO) {
         TableEntity table = tableMapper.toEntity(tableDTO);
         return tableMapper.toDto(tableRepository.save(table));
     }
 
+    @Transactional
     public TableDTO updateTable(Long id, TableDTO dto) {
         return tableRepository.findById(id)
                 .map(existingTable -> {
-                    // Aggiorna i campi dell'entità esistente con quelli del DTO
                     existingTable.setPosti(dto.getPosti());
-                    // salva e ritorna il DTO aggiornato
                     TableEntity updated = tableRepository.save(existingTable);
                     return tableMapper.toDto(updated);
                 })
                 .orElse(null);
     }
 
+    @Transactional
     public TableDTO createTable(TableDTO dto) {
         TableEntity table = tableMapper.toEntity(dto);
         TableEntity saved = tableRepository.save(table);

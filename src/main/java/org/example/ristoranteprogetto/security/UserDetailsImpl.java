@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-
+//Fornisce i dettagli necessari al sistema di sicurezza
 public class UserDetailsImpl implements UserDetails {
 
 
@@ -20,12 +20,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();  // user.getUsername() o getEmail() dipende da te
+        return user.getEmail();
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();  // la password hashata nel DB
+        return user.getPassword();
     }
 
     @Override
@@ -33,11 +33,11 @@ public class UserDetailsImpl implements UserDetails {
         // user.getRuolo() restituisce un enum Ruolo
         if (user.getRuolo() != null) {
             String ruolo = "ROLE_" + user.getRuolo().name().toUpperCase();
-            System.out.println("Ruolo convertito: " + ruolo); // DEBUG
+            System.out.println("Ruolo convertito: " + ruolo);
             return List.of(new SimpleGrantedAuthority(ruolo));
         }
         return List.of();
     }
-    // altri metodi come isEnabled, isAccountNonLocked ecc. li implementi qui
+
 
 }

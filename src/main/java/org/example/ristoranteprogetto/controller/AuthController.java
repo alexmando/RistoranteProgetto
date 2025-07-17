@@ -20,9 +20,8 @@ import java.util.Map;
 public class AuthController {
 
     private final UserService userService;
-    private final AuthService authService;        // ⬅️  niente più AuthenticationManager
+    private final AuthService authService;
 
-    /* ---------- REGISTER ---------- */
     @PostMapping("/register")
     @Transactional
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
@@ -30,7 +29,6 @@ public class AuthController {
         return ResponseEntity.ok(registered);
     }
 
-    /* ---------- LOGIN ---------- */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         try {
@@ -39,7 +37,7 @@ public class AuthController {
             return ResponseEntity.ok()
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + token) // Aggiungi l'header
                     .body(Map.of(
-                            "accessToken", token,  // Chiave modificata da "token" a "accessToken"
+                            "accessToken", token,
                             "tokenType", "Bearer"
                     ));
 

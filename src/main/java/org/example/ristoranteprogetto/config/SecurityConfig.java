@@ -99,7 +99,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(unauthorizedHandler)
+                        .authenticationEntryPoint(unauthorizedHandler) //gestione errori 401
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
