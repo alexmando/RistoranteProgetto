@@ -8,8 +8,9 @@ import java.util.List;
 
 @Entity
 @Data
-@jakarta.persistence.Table(name = "tavoli")
+@Table(name = "tavoli")
 public class TableEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -21,7 +21,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public String login(String email, String rawPassword) {
-        // 1) Carico manualmente i details
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         String storedHash = userDetails.getPassword();
 

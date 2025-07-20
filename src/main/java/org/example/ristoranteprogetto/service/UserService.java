@@ -16,7 +16,6 @@ import org.example.ristoranteprogetto.model.entity.Role;
 
 @Service
 @RequiredArgsConstructor
-
 public class UserService {
 
     private final UserRepository userRepository;
@@ -27,6 +26,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    @Transactional
     public void changePassword(UUID userId, String newPassword) {
         Optional<UserEntity> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
@@ -55,12 +55,6 @@ public class UserService {
         return userRepository.findById(id)
                 .map(userMapper::toDto)
                 .orElse(null);
-    }
-
-    @Transactional
-    public UserDTO save(UserDTO dto) {
-        UserEntity entity = userMapper.toEntity(dto);
-        return userMapper.toDto(userRepository.save(entity));
     }
 
     public List<UserDTO> getAllUsers() {
@@ -97,7 +91,7 @@ public class UserService {
                 .map(existingUser -> {
                     existingUser.setEmail(updatedUser.getEmail());
                     existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-                    existingUser.setRole(updatedUser.getRuolo());
+                    existingUser.setRuolo(updatedUser.getRuolo());
                     existingUser.setUsername(updatedUser.getUsername());
                     return userMapper.toDto(userRepository.save(existingUser));
                 })

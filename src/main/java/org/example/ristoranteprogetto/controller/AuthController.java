@@ -23,7 +23,6 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    @Transactional
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         UserDTO registered = userService.createUser(userDTO);
         return ResponseEntity.ok(registered);

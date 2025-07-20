@@ -2,7 +2,6 @@ package org.example.ristoranteprogetto.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,7 +14,7 @@ public class ReservationDTO {
     private Long id;
     private LocalDateTime dataPrenotazione;
     private int numeroPersone;
-    private String status;  // es. "PENDING", "APPROVED", "REJECTED"
+    private String status;
 
     private Long version;
 

@@ -13,6 +13,11 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity {
 
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "BINARY(16)", updatable = false, nullable = false)
+    private UUID id;
+
     @Version
     @Column(nullable = false)
     private Long version;
@@ -28,19 +33,8 @@ public class UserEntity {
     private List<ReservationEntity> prenotazioniUtente = new ArrayList<>();
 
 
-    @Id
-    @GeneratedValue                         // Hibernate 6 usa UUIDGenerator di default
-    @Column(columnDefinition = "BINARY(16)", updatable = false, nullable = false)
-    private UUID id;
 
 
-    public void setRole(Role role) {
-        this.ruolo = role;
-    }
-
-    public Role getRuolo() {
-        return this.ruolo;
-    }
 
 
 }

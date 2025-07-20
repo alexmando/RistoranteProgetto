@@ -5,7 +5,7 @@ import org.example.ristoranteprogetto.model.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring") // così puoi iniettarlo con @Autowired
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
 

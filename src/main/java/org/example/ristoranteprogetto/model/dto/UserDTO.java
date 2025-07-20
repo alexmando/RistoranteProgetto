@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.example.ristoranteprogetto.model.entity.Role;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class UserDTO {
 
@@ -16,7 +18,7 @@ public class UserDTO {
 
     private Role ruolo;// "ROLE_USER" o "ROLE_ADMIN"
 
-    private String id;
+    private UUID id;
 
     public UserDTO() {}
 

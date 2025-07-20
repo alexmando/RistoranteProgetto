@@ -54,39 +54,17 @@ public class AdminController {
         return reservationService.updateStatus(id, status);
     }
 
-    /**
-     * Solo gli ADMIN possono vedere tutti gli utenti
-     */
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    /**
-     * Un utente può aggiornare solo il proprio profilo, l'ADMIN può aggiornare chiunque
-     */
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id == principal.id")
-    public UserDTO updateUser(@PathVariable UUID id, @RequestBody UserDTO dto) {
-        return userService.updateUser(id, dto);
-    }
-
-    /**
-     * Solo l'ADMIN può cancellare un utente
-     */
+    //solo admin può cancellare un utente
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
     }
 
-    /**
-     * Solo l'ADMIN può creare nuovi utenti direttamente via API
-     */
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public UserDTO createUser(@RequestBody UserDTO dto) {
-        return userService.createUser(dto);
-    }
 }

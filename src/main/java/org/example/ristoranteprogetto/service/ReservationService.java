@@ -39,19 +39,12 @@ public class ReservationService {
 
 
 
-    public List<TableEntity> getAvailableTables(LocalDateTime data, LocalTime orario, int numeroPersone) {
+    public List<TableEntity> getAvailableTables(LocalDateTime data, int numeroPersone) {
         List<TableEntity> allTables = tableRepository.findAll();
         return allTables.stream()
                 .filter(t -> t.getPosti() >= numeroPersone)
                 .filter(t -> reservationRepository.findByTableIdAndDataPrenotazione(t.getId(), data).isEmpty())
                 .toList();
-    }
-
-
-
-    @Transactional
-    public ReservationEntity saveReservation(ReservationEntity reservation) {
-        return reservationRepository.save(reservation);
     }
 
     public Optional<ReservationEntity> getById(Long id) {
@@ -93,29 +86,6 @@ public class ReservationService {
                 .map(reservationMapper::toDto)
                 .collect(Collectors.toList());
     }
-
-    /*public ReservationDTO updateReservation(Long id, ReservationDTO updatedDto) {
-        return reservationRepository.findById(id)
-                .map(existing -> {
-                    existing.setData(updatedDto.getDate());
-                    existing.setTime(updatedDto.getTime());
-                    existing.setPeople(updatedDto.getPeople());
-                    existing.setStatus(updatedDto.getStatus());
-                    // aggiorna table e user solo se serve
-                    if (updatedDto.getTableId() != null) {
-                        TableEntity table = new TableEntity();
-                        table.setId(updatedDto.getTableId());
-                        existing.setTable(table);
-                    }
-                    if (updatedDto.getUserId() != null) {
-                        UserEntity user = new UserEntity();
-                        user.setId(updatedDto.getUserId());
-                        existing.setUser(user);
-                    }
-                    return reservationMapper.toDto(reservationRepository.save(existing));
-                })
-                .orElse(null);
-    }*/
 
     @Transactional
     public ReservationDTO updateStatus(Long id, String status) {

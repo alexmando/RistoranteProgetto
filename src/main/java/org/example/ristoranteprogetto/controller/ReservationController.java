@@ -25,34 +25,23 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final JwtTokenProvider tokenProvider;
 
-    /**
-     * Gli utenti loggati (USER) possono creare una prenotazione
-     */
 
     @PostMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<?> create(
-            @RequestBody ReservationDTO dto,
-            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+    public ResponseEntity<?> create( @RequestBody ReservationDTO dto, @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 
-        // 1) Verifica presenza e formato dell’header Authorization
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Token mancante o non valido");
         }
-
-        // 2) Estrai il token (senza il prefisso "Bearer ")
         String token = authHeader.substring(7);
 
-        // 3) Controlla validità e scadenza del token
         if (!tokenProvider.validateToken(token)) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Token scaduto o non valido");
         }
-
-        // 4) Ottieni l’UUID dell’utente autenticato dal token
         UUID currentUserId;
         try {
             currentUserId = tokenProvider.getUserIdFromToken(token);
@@ -61,8 +50,6 @@ public class ReservationController {
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Utente non trovato per il token fornito");
         }
-
-        // 5) Verifica che stia prenotando per sé stesso
         if (!currentUserId.equals(dto.getUserId())) {
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
@@ -70,18 +57,12 @@ public class ReservationController {
         }
 
         if (dto.getTableId() == null) {
-            dto.setTableId(1L); // valore placeholder temporaneo
+            dto.setTableId(1L);
         }
-
-        // 6) Creazione della prenotazione
         ReservationDTO created = reservationService.createReservation(dto);
         return ResponseEntity.ok(created);
     }
 
-    /**
-     * Gli utenti (USER) visualizzano solo le proprie prenotazioni;
-     * gli ADMIN possono visualizzarle tutte
-     */
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<?> getUserReservations(@PathVariable UUID userId,
@@ -100,21 +81,16 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getReservationsByUserId(userId));
     }
 
-    /**
-     * Un utente può modificare solo le proprie prenotazioni, l'ADMIN può modificare qualsiasi prenotazione
-     */
-    /*@PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @reservationSecurity.isOwner(#id, principal.username)")
-    public ReservationDTO update(@PathVariable Long id, @RequestBody ReservationDTO dto) {
-        return reservationService.updateReservation(id, dto);
-    }*/
-
-    /**
-     * Un utente può cancellare solo le proprie prenotazioni, l'ADMIN può cancellare qualsiasi prenotazione
-     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or @reservationSecurity.isOwner(#id, principal.username)")
     public void delete(@PathVariable Long id) {
         reservationService.deleteReservation(id);
+    }
+
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<ReservationDTO>  getReservations() {
+        return reservationService.getAllReservations();
     }
 }

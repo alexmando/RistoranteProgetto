@@ -1,26 +1,6 @@
 package org.example.ristoranteprogetto.config;
 
 
-
-
-//In particolare, nel contesto di SecurityConfig:
-//Definisce come Spring Security deve comportarsi nel tuo progetto.
-//
-//Imposta le regole di accesso alle risorse (quali URL sono pubblici, quali richiedono autenticazione, ecc.).
-//
-//Configura i filtri di sicurezza (ad esempio, un filtro JWT che intercetta ogni richiesta per validare il token).
-//
-//Imposta il gestore di errori per risposte non autorizzate (come JwtAuthenticationEntryPoint).
-//
-//Configura la gestione della sessione, nel tuo caso per dire a Spring di non mantenere sessioni perché usi JWT (stateless).
-//
-//Definisce il PasswordEncoder per criptare le password.
-//
-//Inietta il AuthenticationManager che si occupa di verificare le credenziali.
-
-
-
-
 import lombok.RequiredArgsConstructor;
 import org.example.ristoranteprogetto.security.CustomUserDetailsService;
 import org.example.ristoranteprogetto.security.JwtAuthenticationEntryPoint;
@@ -43,10 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
-import java.util.List;
-
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration

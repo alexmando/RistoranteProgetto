@@ -31,7 +31,6 @@ public class JwtTokenProvider {
 
     private final long jwtExpirationMs = 86400000; // 24 ore
 
-    // Unificato il metodo per ottenere la chiave
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
@@ -78,14 +77,6 @@ public class JwtTokenProvider {
             System.out.println("Token non valido: " + e.getMessage());
             return false;
         }
-    }
-
-    public String getTokenFromRequest(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null) {
-            return header.replaceFirst("^Bearer\\s+", "");
-        }
-        return null;
     }
 
     public UUID getUserIdFromToken(String token) {

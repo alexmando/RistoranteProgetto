@@ -9,12 +9,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-// ogni prenotazione è legata ad un utente e ad uno specifico tavolo,
-// mentre un tavolo e un utente possono avere molteplici prenotazioni.
 
 @Data
 @Entity
-@jakarta.persistence.Table(name = "prenotazioni")
+@Table(name = "prenotazioni")
 public class ReservationEntity {
 
     @Id
